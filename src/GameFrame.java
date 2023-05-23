@@ -1,7 +1,10 @@
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class GameFrame {
     public JButton[] buttons = new JButton[9];
@@ -28,12 +31,16 @@ public class GameFrame {
             final int index = i; // Final variable for ActionListener
             buttons[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    game.setStatus(buttonClicked(index, game.getStatus()));
+                    buttonClicked(index, game.getStatus());
 
-                    if (game.getStatus().equalsIgnoreCase("B")) {
+                    if (game.getStatus().equalsIgnoreCase("A")) {
                         game.setFieldsOfA(game.getFieldsOfA(), index);
-                    } else {
+                        whoPlaysLabel.setText("Spieler B ist dran");
+                        game.setStatus("B");
+                    } else if(game.getStatus().equalsIgnoreCase("B")){
                         game.setFieldsOfB(game.getFieldsOfB(), index);
+                        whoPlaysLabel.setText("Spieler A ist dran");
+                        game.setStatus("A");
                     }
                     String winner = checkWin(game.getFieldsOfA(), game.getFieldsOfB());
 
@@ -42,16 +49,18 @@ public class GameFrame {
                     winFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
                     JLabel winlabel = new JLabel();
-                    winlabel.add(winFrame);
+                    winFrame.add(winlabel);
 
                     if (winner.equalsIgnoreCase("A")) {
                         game.setWinsA(game.getWinsA() + 1);
                         winlabel.setText("Spieler A hat gewonnen!");
                         winFrame.setVisible(true);
+                        System.out.println("WIN A");
                     } else if(winner.equalsIgnoreCase("B")){
                         game.setWinsB(game.getWinsB() + 1);
-                        winlabel.setText("Spieler A hat gewonnen!");
+                        winlabel.setText("Spieler B hat gewonnen!");
                         winFrame.setVisible(true);
+                        System.out.println("WIN B");
                     }
                 }
             });
@@ -62,18 +71,52 @@ public class GameFrame {
 
     }
 
-    public String buttonClicked(int index, String status) {
+    public void buttonClicked(int index, String status) {
         if (status.equalsIgnoreCase("A") && buttons[index].getBackground() != Color.RED && buttons[index].getBackground() != Color.CYAN) {
             buttons[index].setBackground(Color.CYAN);
-            return "B";
         } else if (status.equalsIgnoreCase("B") && buttons[index].getBackground() != Color.RED && buttons[index].getBackground() != Color.CYAN) {
             buttons[index].setBackground(Color.RED);
-            return "A";
         }
-        return "A";
     }
 
     public String checkWin(int[] fieldsOfA, int[] fieldsOfB) {
-        return "null";
+        String fieldsOfACode = Arrays.toString(fieldsOfA);
+        fieldsOfACode = fieldsOfACode.replace(",", "");
+        fieldsOfACode =  fieldsOfACode.replace(" ", "");
+        fieldsOfACode = fieldsOfACode.replace("[", "");
+        fieldsOfACode = fieldsOfACode.replace("]", "");
+
+        String fieldsOfBCode = Arrays.toString(fieldsOfB);
+        fieldsOfBCode = fieldsOfBCode.replace(",", "");
+        fieldsOfBCode =  fieldsOfBCode.replace(" ", "");
+        fieldsOfBCode = fieldsOfBCode.replace("[", "");
+        fieldsOfBCode = fieldsOfBCode.replace("]", "");
+
+        System.out.println("A - " + fieldsOfACode);
+        System.out.println("B - " + fieldsOfBCode);
+
+        switch (fieldsOfACode)  {
+            case "111000000": return "A";
+            case "000111000": return "A";
+            case "000000111": return "A";
+            case "100100100": return "A";
+            case "010010010": return "A";
+            case "001001001": return "A";
+            case "100010001": return "A";
+            case "001010100": return "A";
+        }
+
+        switch (fieldsOfBCode) {
+            case "111000000": return "B";
+            case "000111000": return "B";
+            case "000000111": return "B";
+            case "100100100": return "B";
+            case "010010010": return "B";
+            case "001001001": return "B";
+            case "100010001": return "B";
+            case "001010100": return "B";
+        }
+
+        return "FEHLER";
     }
 }

@@ -3,8 +3,8 @@ public class TicTacToeController {
     private String status;
     private int winsA;
     private int winsB;
-    private int[] fieldsOfA = new int[8];
-    private int[] fieldsOfB = new int[8];
+    private int[] fieldsOfA = new int[9];
+    private int[] fieldsOfB = new int[9];
 
     public TicTacToeController(String status, int winsA, int winsB) {
         setStatus(status);
@@ -41,7 +41,7 @@ public class TicTacToeController {
     }
 
     public void setFieldsOfA(int[] fieldsOfA, int index) {
-        fieldsOfA[index] = index;
+        fieldsOfA[index] = 1;
         this.fieldsOfA = fieldsOfA;
     }
 
@@ -50,7 +50,7 @@ public class TicTacToeController {
     }
 
     public void setFieldsOfB(int[] fieldsOfB, int index) {
-        fieldsOfA[index] = index;
+        fieldsOfB[index] = 1;
         this.fieldsOfB = fieldsOfB;
     }
 }
