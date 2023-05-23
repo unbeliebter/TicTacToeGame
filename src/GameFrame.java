@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 public class GameFrame {
     public JButton[] buttons = new JButton[9];
+    public int counter = 0;
     public GameFrame() {
 
         TicTacToeController game = new TicTacToeController("A", 0, 0);
@@ -32,6 +33,8 @@ public class GameFrame {
             buttons[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     buttonClicked(index, game.getStatus());
+                    counter++;
+                    System.out.println(counter);
 
                     if (game.getStatus().equalsIgnoreCase("A")) {
                         game.setFieldsOfA(game.getFieldsOfA(), index);
@@ -42,7 +45,7 @@ public class GameFrame {
                         whoPlaysLabel.setText("Spieler A ist dran");
                         game.setStatus("A");
                     }
-                    String winner = checkWin(game.getFieldsOfA(), game.getFieldsOfB());
+                    String winner = checkWin(game.getFieldsOfA(), game.getFieldsOfB(), counter);
 
                     JFrame winFrame = new JFrame("TicTacToe");
                     winFrame.setSize(200, 100);
@@ -81,6 +84,7 @@ public class GameFrame {
                         winFrame.setVisible(true);
                         buttonsClear();
                         game.clear(game.getFieldsOfA(), game.getFieldsOfB(), game.getStatus());
+                        counter = 0;
 
                     } else if(winner.equalsIgnoreCase("B")){
                         game.setWinsB(game.getWinsB() + 1);
@@ -89,6 +93,13 @@ public class GameFrame {
                         winFrame.setVisible(true);
                         buttonsClear();
                         game.clear(game.getFieldsOfA(), game.getFieldsOfB(), game.getStatus());
+                        counter = 0;
+                    } else if(winner.equalsIgnoreCase("U")) {           // Nochmal schauen
+                        winlabel.setText("Es ist ein unentschieden!");
+                        winFrame.setVisible(true);
+                        buttonsClear();
+                        game.clear(game.getFieldsOfA(), game.getFieldsOfB(), game.getStatus());
+                        counter = 0;
                     }
                 }
             });
@@ -111,7 +122,7 @@ public class GameFrame {
         }
     }
 
-    public String checkWin(int[] fieldsOfA, int[] fieldsOfB) {
+    public String checkWin(int[] fieldsOfA, int[] fieldsOfB, int counter) {
         String fieldsOfACode = Arrays.toString(fieldsOfA);
         fieldsOfACode = fieldsOfACode.replace(",", "");
         fieldsOfACode =  fieldsOfACode.replace(" ", "");
@@ -123,9 +134,6 @@ public class GameFrame {
         fieldsOfBCode =  fieldsOfBCode.replace(" ", "");
         fieldsOfBCode = fieldsOfBCode.replace("[", "");
         fieldsOfBCode = fieldsOfBCode.replace("]", "");
-
-        System.out.println("A - " + fieldsOfACode);
-        System.out.println("B - " + fieldsOfBCode);
 
         switch (fieldsOfACode)  {
             case "111000000": return "A";
@@ -147,6 +155,10 @@ public class GameFrame {
             case "001001001": return "B";
             case "100010001": return "B";
             case "001010100": return "B";
+        }
+
+        if (counter == 9) {
+            return "U";
         }
 
         return "FEHLER";
