@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 public class StartFrame {
     public StartFrame() {
         JFrame startframe = new JFrame("TicTacToe");
+        startframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startframe.setSize(500, 500);
 
         JPanel startPanel = new JPanel();
@@ -26,7 +27,6 @@ public class StartFrame {
         JButton windowCloseButton = new JButton("Spiel beenden");
         startPanel.add(windowCloseButton);
         windowCloseButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 startframe.setVisible(false);
