@@ -53,4 +53,10 @@ public class TicTacToeController {
         fieldsOfB[index] = 1;
         this.fieldsOfB = fieldsOfB;
     }
+
+    public void clear(int[] fieldsOfA, int[] fieldsOfB, String status) {
+        setStatus("A");
+        this.fieldsOfA = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+        this.fieldsOfB = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+    }
 }

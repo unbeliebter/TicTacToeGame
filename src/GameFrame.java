@@ -45,30 +45,56 @@ public class GameFrame {
                     String winner = checkWin(game.getFieldsOfA(), game.getFieldsOfB());
 
                     JFrame winFrame = new JFrame("TicTacToe");
-                    winFrame.setSize(100, 100);
+                    winFrame.setSize(200, 100);
                     winFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+                    JPanel winPanel = new JPanel();
+
                     JLabel winlabel = new JLabel();
-                    winFrame.add(winlabel);
+                    winPanel.add(winlabel);
+
+                    JButton backButton = new JButton("Ok");
+                    winPanel.add(backButton);
+
+                    backButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            winFrame.setVisible(false);
+                        }
+                    });
+
+                    JButton gameCloseButton = new JButton("Spiel schließen");
+                    winPanel.add(gameCloseButton);
+                    winFrame.add(winPanel);
+
+                    gameCloseButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.exit(-1);
+                        }
+                    });
 
                     if (winner.equalsIgnoreCase("A")) {
                         game.setWinsA(game.getWinsA() + 1);
                         winlabel.setText("Spieler A hat gewonnen!");
+                        pointsOfA.setText("Wins von A: " + String.valueOf(game.getWinsA()));
                         winFrame.setVisible(true);
-                        System.out.println("WIN A");
+                        buttonsClear();
+                        game.clear(game.getFieldsOfA(), game.getFieldsOfB(), game.getStatus());
+
                     } else if(winner.equalsIgnoreCase("B")){
                         game.setWinsB(game.getWinsB() + 1);
                         winlabel.setText("Spieler B hat gewonnen!");
+                        pointsOfB.setText("Wins von B: " + String.valueOf(game.getWinsB()));
                         winFrame.setVisible(true);
-                        System.out.println("WIN B");
+                        buttonsClear();
+                        game.clear(game.getFieldsOfA(), game.getFieldsOfB(), game.getStatus());
                     }
                 }
             });
             gameFrame.add(buttons[i]);
         }
-
         gameFrame.setVisible(true);
-
     }
 
     public void buttonClicked(int index, String status) {
@@ -76,6 +102,12 @@ public class GameFrame {
             buttons[index].setBackground(Color.CYAN);
         } else if (status.equalsIgnoreCase("B") && buttons[index].getBackground() != Color.RED && buttons[index].getBackground() != Color.CYAN) {
             buttons[index].setBackground(Color.RED);
+        }
+    }
+
+    public void buttonsClear() {
+        for (JButton button : buttons) {
+            button.setBackground(Color.WHITE);
         }
     }
 
