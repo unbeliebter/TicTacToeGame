@@ -33,6 +33,16 @@ public class StartFrame {
             }
         });
 
+        JButton statsButton = new JButton("Statistiken");
+        startPanel.add(statsButton);
+        statsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StatsFrame statsFrame = new StatsFrame();
+                startframe.setVisible(false);
+            }
+        });
+
         startframe.add(startPanel);
         startframe.setVisible(true);
     }

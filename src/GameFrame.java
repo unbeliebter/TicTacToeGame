@@ -94,7 +94,7 @@ public class GameFrame {
                         buttonsClear();
                         game.clear(game.getFieldsOfA(), game.getFieldsOfB(), game.getStatus());
                         counter = 0;
-                    } else if(winner.equalsIgnoreCase("U")) {           // Nochmal schauen
+                    } else if(winner.equalsIgnoreCase("U")) {
                         winlabel.setText("Es ist ein unentschieden!");
                         winFrame.setVisible(true);
                         buttonsClear();
