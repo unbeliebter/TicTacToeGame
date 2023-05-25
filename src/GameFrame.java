@@ -4,12 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 
 public class GameFrame {
     public JButton[] buttons = new JButton[9];
     public int counter = 0;
     public GameFrame() {
+
+        File file = new File("Statistiken.txt");
 
         TicTacToeController game = new TicTacToeController("A", 0, 0);
         JFrame gameFrame = new JFrame("TicTacToe");
@@ -34,7 +42,6 @@ public class GameFrame {
                 public void actionPerformed(ActionEvent e) {
                     buttonClicked(index, game.getStatus());
                     counter++;
-                    System.out.println(counter);
 
                     if (game.getStatus().equalsIgnoreCase("A")) {
                         game.setFieldsOfA(game.getFieldsOfA(), index);
@@ -73,6 +80,19 @@ public class GameFrame {
                     gameCloseButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            try {
+                                BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+                                if (game.getWinsA() != 0) writer.write(game.getWinsA() + " | Spieler A | " + LocalTime.now() + "-" + LocalDate.now());
+                                writer.newLine();
+                                if (game.getWinsB() != 0) writer.write(game.getWinsB() + " | Spieler B | " + LocalTime.now() + "-" + LocalDate.now());
+                                writer.newLine();
+                                if (game.getTies() != 0) writer.write(game.getTies() + " | Unentschiedene Spiele | " + LocalTime.now() + "-" + LocalDate.now());
+                                writer.newLine();
+                                writer.close();
+
+                            } catch (IOException ex) {
+                                throw new RuntimeException("Es ist ein Fehler aufgetreten: " + ex);
+                            }
                             System.exit(-1);
                         }
                     });
@@ -95,6 +115,7 @@ public class GameFrame {
                         game.clear(game.getFieldsOfA(), game.getFieldsOfB(), game.getStatus());
                         counter = 0;
                     } else if(winner.equalsIgnoreCase("U")) {
+                        game.setTies(game.getTies() + 1);
                         winlabel.setText("Es ist ein unentschieden!");
                         winFrame.setVisible(true);
                         buttonsClear();

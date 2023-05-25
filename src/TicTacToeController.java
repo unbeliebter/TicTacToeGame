@@ -3,6 +3,7 @@ public class TicTacToeController {
     private String status;
     private int winsA;
     private int winsB;
+    private int ties;
     private int[] fieldsOfA = new int[9];
     private int[] fieldsOfB = new int[9];
 
@@ -30,6 +31,14 @@ public class TicTacToeController {
 
     public int getWinsB() {
         return winsB;
+    }
+
+    public int getTies() {
+        return ties;
+    }
+
+    public void setTies(int ties) {
+        this.ties = ties;
     }
 
     public void setWinsB(int winsB) {
