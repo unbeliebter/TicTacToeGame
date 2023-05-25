@@ -82,12 +82,20 @@ public class GameFrame {
                         public void actionPerformed(ActionEvent e) {
                             try {
                                 BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-                                if (game.getWinsA() != 0) writer.write(game.getWinsA() + " | Spieler A | " + LocalTime.now() + "-" + LocalDate.now());
-                                writer.newLine();
-                                if (game.getWinsB() != 0) writer.write(game.getWinsB() + " | Spieler B | " + LocalTime.now() + "-" + LocalDate.now());
-                                writer.newLine();
-                                if (game.getTies() != 0) writer.write(game.getTies() + " | Unentschiedene Spiele | " + LocalTime.now() + "-" + LocalDate.now());
-                                writer.newLine();
+                                if (game.getWinsA() != 0) {
+                                    writer.write(game.getWinsA() + "|A|" + LocalTime.now() + "-" + LocalDate.now());
+                                    writer.newLine();
+                                }
+
+                                if (game.getWinsB() != 0) {
+                                    writer.write(game.getWinsB() + "|B|" + LocalTime.now() + "-" + LocalDate.now());
+                                    writer.newLine();
+                                }
+
+                                if (game.getTies() != 0) {
+                                    writer.write(game.getTies() + "|U|" + LocalTime.now() + "-" + LocalDate.now());
+                                    writer.newLine();
+                                }
                                 writer.close();
 
                             } catch (IOException ex) {

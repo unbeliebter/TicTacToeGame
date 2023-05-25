@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class TicTacToeController {
 
     private String status;
@@ -11,6 +13,10 @@ public class TicTacToeController {
         setStatus(status);
         setWinsA(winsA);
         setWinsB(winsB);
+    }
+
+    public TicTacToeController() {
+
     }
 
     public void setStatus(String status) {
@@ -67,5 +73,42 @@ public class TicTacToeController {
         setStatus("A");
         this.fieldsOfA = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
         this.fieldsOfB = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+    }
+
+    public String statsPicker(File file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        String readString;
+        String cleanReadString;
+        int winsOfA = 0;
+        int winsOfB = 0;
+        int ties = 0;
+        int games = 0;
+
+        while ((readString = reader.readLine()) != null) {
+            cleanReadString =  readString.replace("|", "");
+            games =  games + Integer.parseInt(cleanReadString.split("")[0].substring(0));
+
+            System.out.println(games);
+            if (cleanReadString.split("|")[1].substring(0).equalsIgnoreCase("A")) {
+                if (winsOfA < Integer.parseInt(cleanReadString.split("")[0].substring(0))) {
+                    winsOfA = Integer.parseInt(cleanReadString.split("")[0].substring(0));
+                }
+
+            } else if (cleanReadString.split("")[1].substring(0).equalsIgnoreCase("B")) {
+                if (winsOfB < Integer.parseInt(cleanReadString.split("")[0].substring(0))) {
+                    winsOfB = Integer.parseInt(cleanReadString.split("")[0].substring(0));
+                }
+
+            } else if (cleanReadString.split("")[1].substring(0).equalsIgnoreCase("U")) {
+                if (ties < Integer.parseInt(cleanReadString.split("")[0].substring(0))) {
+                    ties = Integer.parseInt(cleanReadString.split("")[0].substring(0));
+                }
+            }
+        }
+        return "Spiele insgesamt: " + games + "\n" +
+                "Spieler A: " + winsOfA + " Gewonnene Spiele" + "\n" +
+                "Spieler B: " + winsOfB + " Gewonnene Spiele" + "\n" +
+                "Unentschieden: " + ties + " Spiele";
     }
 }

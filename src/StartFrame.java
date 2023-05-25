@@ -1,16 +1,17 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class StartFrame {
     public StartFrame() {
         JFrame startframe = new JFrame("TicTacToe");
         startframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        startframe.setSize(500, 500);
+        startframe.setSize(200, 180);
 
         JPanel startPanel = new JPanel();
 
-        JLabel nameLabel = new JLabel("TicTacToe");
+        JLabel nameLabel = new JLabel("TicTacToe - JETZT SPIELEN");
         startPanel.add(nameLabel);
 
         JButton startButton = new JButton("Spiel starten");
@@ -38,7 +39,11 @@ public class StartFrame {
         statsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StatsFrame statsFrame = new StatsFrame();
+                try {
+                    StatsFrame statsFrame = new StatsFrame();
+                } catch (IOException ex) {
+                    throw new RuntimeException("Es ist ein Fehler aufgetreten. " + ex);
+                }
                 startframe.setVisible(false);
             }
         });
